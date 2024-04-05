@@ -164,7 +164,7 @@ export const RDK = ({ coherence, trialTime, submitData }) => {
             2 * Math.PI + Math.atan2(yRelativeToCenter, xRelativeToCenter);
           resContext.closePath();
           drawing = false;
-          setReportedDirection(angle);
+          setReportedDirection(radianToDegree(angle));
           submitData({
             coherence,
             initialDirection,
@@ -181,11 +181,64 @@ export const RDK = ({ coherence, trialTime, submitData }) => {
       resCanvas.addEventListener("mouseup", stopDrawing);
       resCanvas.addEventListener("mouseout", stopDrawing);
 
+      let drawingTouch = false;
+      const startDrawingTouch = (e) => {
+        if (!drawingTouch) {
+          drawingTouch = true;
+          const { clientX, clientY } = e.touches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          resContext.beginPath();
+          resContext.moveTo(offsetX, offsetY);
+        }
+      };
+
+      const drawTouch = (e) => {
+        if (drawingTouch) {
+          e.preventDefault(); // Prevent scrolling on touch devices
+          const { clientX, clientY } = e.touches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          resContext.lineTo(offsetX, offsetY);
+          resContext.stroke();
+        }
+      };
+
+      const stopDrawingTouch = (e) => {
+        if (drawingTouch) {
+          const { clientX, clientY } = e.changedTouches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          const centerX = 200;
+          const centerY = 200;
+          const xRelativeToCenter = offsetX - centerX;
+          const yRelativeToCenter = offsetY - centerY;
+          const angle =
+            2 * Math.PI + Math.atan2(yRelativeToCenter, xRelativeToCenter);
+          resContext.closePath();
+          drawingTouch = false;
+          setReportedDirection(angle);
+          submitData({
+            coherence,
+            initialDirection,
+            finalDirection,
+            reportedDirection: radianToDegree(angle),
+            angleChange,
+          });
+        }
+      };
+
+      // Helper function to calculate offset of touch event relative to canvas
+      const getOffset = (canvas, clientX, clientY) => {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          offsetX: clientX - rect.left,
+          offsetY: clientY - rect.top,
+        };
+      };
+
       // For Touch
-      resCanvas.addEventListener("touchstart", startDrawing);
-      resCanvas.addEventListener("touchmove", draw);
-      resCanvas.addEventListener("touchend", stopDrawing);
-      resCanvas.addEventListener("touchleave", stopDrawing);
+      resCanvas.addEventListener("touchstart", startDrawingTouch);
+      resCanvas.addEventListener("touchmove", drawTouch);
+      resCanvas.addEventListener("touchend", stopDrawingTouch);
+      resCanvas.addEventListener("touchcancel", stopDrawingTouch);
     }
   }, [showRDK]);
 
