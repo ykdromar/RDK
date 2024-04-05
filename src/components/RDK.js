@@ -175,10 +175,17 @@ export const RDK = ({ coherence, trialTime, submitData }) => {
         }
       }
 
+      // For Mouse
       resCanvas.addEventListener("mousedown", startDrawing);
       resCanvas.addEventListener("mousemove", draw);
       resCanvas.addEventListener("mouseup", stopDrawing);
       resCanvas.addEventListener("mouseout", stopDrawing);
+
+      // For Touch
+      resCanvas.addEventListener("touchstart", startDrawing);
+      resCanvas.addEventListener("touchmove", draw);
+      resCanvas.addEventListener("touchend", stopDrawing);
+      resCanvas.addEventListener("touchleave", stopDrawing);
     }
   }, [showRDK]);
 
