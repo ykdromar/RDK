@@ -103,8 +103,7 @@ export const HomePage = () => {
         <div className="form-control">
           <label className="label cursor-pointer">
             <span className="label-text">
-              I have read all the terms & conditions, and I provide my consent
-              to perform this experiment on myself.
+              I provide my consent to perform this experiment on me.
             </span>
             <input
               type="checkbox"

@@ -4,7 +4,7 @@ import { RDK } from "../components/RDK";
 import { updateData } from "../config/firestore";
 import { InstructionsPage } from "./InstructionsPage";
 import { downloadExcel } from "../utils/export";
-
+import { trials } from "../constants/trials";
 export const ExperimentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,10 +37,7 @@ export const ExperimentPage = () => {
 
   const timeline = [
     { type: "instructions" },
-    { type: "RDK", coherence: 55, change: true },
-    { type: "RDK", coherence: 50, change: false },
-    { type: "RDK", coherence: 100, change: false },
-    { type: "RDK", coherence: 100, change: true },
+    ...trials,
     { type: "finish", message: "Thanks for performing experiment" },
   ];
   const submitData = (data) => {
@@ -53,10 +50,6 @@ export const ExperimentPage = () => {
       data: newData,
     });
   };
-
-  useEffect(() => {
-    // console.log(timeLineIndex);
-  }, [timeLineIndex]);
 
   const next = () => {
     setTimelineIndex(timeLineIndex + 1);
