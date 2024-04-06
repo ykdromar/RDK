@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
 import { setData, updateData } from "../config/firestore";
+import { InstructionsPage } from "./InstructionsPage";
+
 export const ExperimentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,7 +17,9 @@ export const ExperimentPage = () => {
 
   const [experimentData, setExperimentData] = useState([]);
   const [timeLineIndex, setTimelineIndex] = useState(0);
+
   const timeline = [
+    { type: "instructions" },
     { type: "RDK", coherence: 50 },
     { type: "finish", message: "Thanks for performing experiment" },
   ];
@@ -29,12 +33,14 @@ export const ExperimentPage = () => {
     });
   };
 
-  // useEffect(() => {
-  //   console.log(experimentData);
-  // }, [experimentData]);
+  const next = () => {
+    setTimelineIndex(timeLineIndex + 1);
+  };
 
   const experiment = () => {
     switch (timeline[timeLineIndex].type) {
+      case "instructions":
+        return <InstructionsPage next={next} />;
       case "RDK":
         return (
           <RDK
