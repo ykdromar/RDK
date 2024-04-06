@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
 import { updateData } from "../config/firestore";
 import { InstructionsPage } from "./InstructionsPage";
+import { downloadExcel } from "../utils/export";
 
 export const ExperimentPage = () => {
   const location = useLocation();
@@ -108,6 +109,27 @@ export const ExperimentPage = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="w-4/12 flex justify-evenly mt-5">
+              <button
+                className="btn btn-neutral"
+                onClick={() => {
+                  downloadExcel(
+                    `${subjectInfo.id}-${subjectInfo.name.replace(" ", "_")}`,
+                    experimentData
+                  );
+                }}
+              >
+                Download
+              </button>
+              <button
+                className="btn btn-neutral"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Home
+              </button>
             </div>
           </div>
         );
