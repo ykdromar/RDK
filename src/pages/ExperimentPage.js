@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
 import { updateData } from "../config/firestore";
@@ -55,81 +55,82 @@ export const ExperimentPage = () => {
     setTimelineIndex(timeLineIndex + 1);
   };
 
-  const experiment = () => {
-    switch (timeline[timeLineIndex].type) {
-      case "instructions":
-        return <InstructionsPage next={next} />;
-      case "RDK":
-        return !showNextScreen ? (
-          <RDK
-            coherence={timeline[timeLineIndex].coherence}
-            change={timeline[timeLineIndex].change}
-            trialTime={1000}
-            submitData={submitData}
-          />
-        ) : (
-          <NextScreen />
-        );
-      case "finish":
-        return (
-          <div className="flex flex-col items-center mt-5 ">
-            <span className="text-lg font-medium ">
-              {timeline[timeLineIndex].message}
-            </span>
-            <div className="overflow-x-auto mt-5">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th>Trial count</th>
-                    <th>Initial Direction Angle</th>
-                    <th>Final Direction Angle</th>
-                    <th>Reported Direction Angle</th>
-                    <th>Coherence</th>
-                    <th>Angle Change</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {experimentData.map((e, i) => (
-                    <tr key={i}>
-                      <td>{i + 1}</td>
-                      <td>{e.initialDirection}</td>
-                      <td>{e.finalDirection}</td>
-                      <td>{e.reportedDirection}</td>
-                      <td>{e.coherence}</td>
-                      <td>{e.angleChange}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="w-4/12 flex justify-evenly mt-5">
-              <button
-                className="btn btn-neutral"
-                onClick={() => {
-                  downloadExcel(
-                    `${subjectInfo.id}-${subjectInfo.name.replace(" ", "_")}`,
-                    experimentData
-                  );
-                }}
-              >
-                Download
-              </button>
-              <button
-                className="btn btn-neutral"
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                Home
-              </button>
-            </div>
-          </div>
-        );
-      default:
-        return;
-    }
-  };
+  // const experiment = useCallback(() => {
+  //   switch (timeline[timeLineIndex].type) {
+  //     case "instructions":
+  //       return <InstructionsPage next={next} />;
+  //     case "RDK":
+  // return !showNextScreen ? (
+  //   <RDK
+  //     key={timeLineIndex}
+  //     coherence={timeline[timeLineIndex].coherence}
+  //     change={timeline[timeLineIndex].change}
+  //     trialTime={1000}
+  //     submitData={submitData}
+  //   />
+  // ) : (
+  //   <NextScreen />
+  // );
+  //     case "finish":
+  //       return (
+  //         <div className="flex flex-col items-center mt-5 ">
+  //           <span className="text-lg font-medium ">
+  //             {timeline[timeLineIndex].message}
+  //           </span>
+  //           <div className="overflow-x-auto mt-5">
+  //             <table className="table">
+  //               {/* head */}
+  //               <thead>
+  //                 <tr>
+  //                   <th>Trial count</th>
+  //                   <th>Initial Direction Angle</th>
+  //                   <th>Final Direction Angle</th>
+  //                   <th>Reported Direction Angle</th>
+  //                   <th>Coherence</th>
+  //                   <th>Angle Change</th>
+  //                 </tr>
+  //               </thead>
+  //               <tbody>
+  //                 {experimentData.map((e, i) => (
+  //                   <tr key={i}>
+  //                     <td>{i + 1}</td>
+  //                     <td>{e.initialDirection}</td>
+  //                     <td>{e.finalDirection}</td>
+  //                     <td>{e.reportedDirection}</td>
+  //                     <td>{e.coherence}</td>
+  //                     <td>{e.angleChange}</td>
+  //                   </tr>
+  //                 ))}
+  //               </tbody>
+  //             </table>
+  //           </div>
+  //           <div className="w-4/12 flex justify-evenly mt-5">
+  //             <button
+  //               className="btn btn-neutral"
+  //               onClick={() => {
+  //                 downloadExcel(
+  //                   `${subjectInfo.id}-${subjectInfo.name.replace(" ", "_")}`,
+  //                   experimentData
+  //                 );
+  //               }}
+  //             >
+  //               Download
+  //             </button>
+  //             <button
+  //               className="btn btn-neutral"
+  //               onClick={() => {
+  //                 navigate("/");
+  //               }}
+  //             >
+  //               Home
+  //             </button>
+  //           </div>
+  //         </div>
+  //       );
+  //     default:
+  //       return;
+  //   }
+  // }, [timeLineIndex, showNextScreen]);
 
   return (
     <div className="flex flex-col items-center pt-3">
@@ -151,7 +152,76 @@ export const ExperimentPage = () => {
           </tbody>
         </table>
       </div>
-      {experiment()}
+      {timeline[timeLineIndex].type === "instructions" && (
+        <InstructionsPage next={next} />
+      )}
+      {timeline[timeLineIndex].type === "RDK" &&
+        (!showNextScreen ? (
+          <RDK
+            key={timeLineIndex}
+            coherence={timeline[timeLineIndex].coherence}
+            change={timeline[timeLineIndex].change}
+            trialTime={1000}
+            submitData={submitData}
+          />
+        ) : (
+          <NextScreen key={timeLineIndex} />
+        ))}
+      {timeline[timeLineIndex].type === "finish" && (
+        <div className="flex flex-col items-center mt-5 ">
+          <span className="text-lg font-medium ">
+            {timeline[timeLineIndex].message}
+          </span>
+          <div className="overflow-x-auto mt-5">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>Trial count</th>
+                  <th>Initial Direction Angle</th>
+                  <th>Final Direction Angle</th>
+                  <th>Reported Direction Angle</th>
+                  <th>Coherence</th>
+                  <th>Angle Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                {experimentData.map((e, i) => (
+                  <tr key={i}>
+                    <td>{i + 1}</td>
+                    <td>{e.initialDirection}</td>
+                    <td>{e.finalDirection}</td>
+                    <td>{e.reportedDirection}</td>
+                    <td>{e.coherence}</td>
+                    <td>{e.angleChange}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="w-4/12 flex justify-evenly mt-5">
+            <button
+              className="btn btn-neutral"
+              onClick={() => {
+                downloadExcel(
+                  `${subjectInfo.id}-${subjectInfo.name.replace(" ", "_")}`,
+                  experimentData
+                );
+              }}
+            >
+              Download
+            </button>
+            <button
+              className="btn btn-neutral"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              Home
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -244,6 +244,17 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       resCanvas.addEventListener("touchmove", drawTouch);
       resCanvas.addEventListener("touchend", stopDrawingTouch);
       resCanvas.addEventListener("touchcancel", stopDrawingTouch);
+      return () => {
+        resCanvas.removeEventListener("mousedown", startDrawingTouch);
+        resCanvas.removeEventListener("mousemove", drawTouch);
+        resCanvas.removeEventListener("mouseup", stopDrawingTouch);
+        resCanvas.removeEventListener("mouseout", stopDrawingTouch);
+
+        resCanvas.removeEventListener("touchstart", startDrawingTouch);
+        resCanvas.removeEventListener("touchmove", drawTouch);
+        resCanvas.removeEventListener("touchend", stopDrawingTouch);
+        resCanvas.removeEventListener("touchcancel", stopDrawingTouch);
+      };
     }
   }, [showRDK]);
 
