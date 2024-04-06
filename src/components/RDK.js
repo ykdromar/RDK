@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const RDK = ({ coherence, trialTime, submitData }) => {
+export const RDK = ({ coherence, trialTime, submitData, change }) => {
   const [initialDirection, setInitialAngle] = useState();
   const [finalDirection, setFinalDirection] = useState();
   const [angleChange, setAngleChange] = useState();
@@ -104,7 +104,12 @@ export const RDK = ({ coherence, trialTime, submitData }) => {
       setFinalDirection(radianToDegree(newDirection));
     };
     update();
-    setTimeout(changeDirection, trialTime / 2);
+    if (change) {
+      setTimeout(changeDirection, trialTime / 2);
+    } else {
+      setAngleChange(radianToDegree(0));
+      setFinalDirection(radianToDegree(sameDirectionAngle));
+    }
     setTimeout(() => {
       setShowRDK(false);
     }, trialTime);
