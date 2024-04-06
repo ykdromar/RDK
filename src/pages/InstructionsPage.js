@@ -14,8 +14,8 @@ export const InstructionsPage = ({ next }) => {
       <p className="my-1">
         In this experiment, you will be presented with a series of random dot
         patterns on the screen. Your task is to observe the motion of the dots
-        and report the perceived final direction using the touch interface on
-        the iPad.
+        and report the perceived direction using the touch interface on the
+        iPad.
       </p>
       <h2 className="text-m font-semibold my-1">Preparation</h2>
       <p className="my-1">
@@ -24,8 +24,8 @@ export const InstructionsPage = ({ next }) => {
       </p>
       <h2 className="text-m font-semibold my-1">Experiment Start</h2>
       <p className="my-1">
-        Once you're ready, start the experiment by tapping the 'Begin' button on
-        the screen.
+        Once you're ready, start the experiment by tapping the 'Begin' button at
+        the bottom of the screen.
       </p>
       <h2 className="text-m font-semibold my-1">Dot Motion Observation</h2>
       <ul className="list-disc list-inside my-1">
@@ -59,14 +59,15 @@ export const InstructionsPage = ({ next }) => {
           final direction, release your touch on the dial.
         </li>
         <li className="ml-5">
-          The trial will end, and the next trial will begin shortly.
+          The trial will end, and press "Show" button on the screen to view
+          start next trial.
         </li>
-        <li className="ml-5">
-          <strong>Repeat:</strong> The experiment consists of 400 trials each of
+        {/* <li className="ml-5">
+          <strong>Repeat:</strong> The experiment consists of 60 trials each of
           1s so the total time would be 400s(~7 minutes) each with different dot
           motion patterns.Repeat steps 3 to 5 for each trial until the
           experiment is completed.
-        </li>
+        </li> */}
       </ul>
       <h2 className="text-m font-semibold my-1">Important Notes</h2>
       <ul className="list-disc list-inside my-1">
