@@ -58,7 +58,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       context.fill();
       context.closePath();
     };
-
+    var frameId;
     const update = () => {
       // Clear canvas
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -77,7 +77,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
         drawDot(dot.x, dot.y);
       });
 
-      requestAnimationFrame(update);
+      frameId = requestAnimationFrame(update);
     };
 
     const changeDirection = () => {
@@ -104,19 +104,26 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       setFinalDirection(radianToDegree(newDirection));
     };
     update();
+
     if (change) {
-      setTimeout(changeDirection, trialTime / 2);
+      var timeout1 = setTimeout(changeDirection, trialTime / 2);
     } else {
       setAngleChange(radianToDegree(0));
       setFinalDirection(radianToDegree(sameDirectionAngle));
     }
-    setTimeout(() => {
+    let timeout2 = setTimeout(() => {
       setShowRDK(false);
     }, trialTime);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
   };
 
   useEffect(() => {
-    startRDK();
+    return startRDK();
   }, []);
 
   useEffect(() => {
