@@ -11,6 +11,7 @@ export const SubjectResultPage = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [graphData1, setGraphData1] = useState([0, 0]);
+  const [graphData2, setGraphData2] = useState([]);
 
   const screenClassnames = classNames("h-screen", "flex", "justify-center", {
     "items-center": loading,
@@ -34,9 +35,22 @@ export const SubjectResultPage = () => {
     setGraphData1([correct, incorrect]);
   };
 
+  const binSize = 45; // Adjust the bin size as needed
+  const generateFrequencyData = (rawData) => {
+    let data = rawData.data;
+
+    const frequencies = Array.from({ length: 360 / binSize }, () => 0);
+    data.forEach((trial) => {
+      const binIndex = Math.floor(trial.initialDirection / binSize);
+      frequencies[binIndex]++;
+    });
+    setGraphData2(frequencies);
+  };
+
   useEffect(() => {
     if (!loading) {
       countCorrectIncorrect(data);
+      generateFrequencyData(data);
     }
   }, [data]);
 
@@ -49,19 +63,38 @@ export const SubjectResultPage = () => {
           <span className="text-2xl font-bold">Results: {doc.data.name}</span>
           <br />
           <span className="text-xl font-semibold mt-5">Graphs</span>
-          <div className="mt-2 w-1/2 h-1/2">
-            <span className="text-m font-semibold mt-5">
-              Trial: {data.data.length}/60
-            </span>
-
-            <span className="text-m font-semibold mt-5 ml-5">
-              Correct: {graphData1[0]}/60
-            </span>
-
-            <span className="text-m font-semibold mt-5 ml-5">
-              Incorrect: {graphData1[1]}/60
-            </span>
+          <div className="mt-2 w-1/2 h-1/2 flex">
+            <div className="mt-5 border-r-2 p-1 mr-1">
+              <table className="table">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Count</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="hover">
+                    <th>Trial</th>
+                    <td>{data.data.length}</td>
+                    <td>60</td>
+                  </tr>
+                  <tr className="hover">
+                    <th>Correct</th>
+                    <td>{graphData1[0]}</td>
+                    <td>60</td>
+                  </tr>
+                  <tr className="hover">
+                    <th>Incorrect</th>
+                    <td>{graphData1[1]}</td>
+                    <td>60</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <VerticalBarGraph
+              className=" p-1 mr-1"
               data={{
                 labels: ["Correct", "Incorrect"],
                 datasets: [
@@ -78,7 +111,7 @@ export const SubjectResultPage = () => {
               options={{
                 elements: {
                   bar: {
-                    borderWidth: 1,
+                    borderWidth: 0,
                   },
                 },
                 plugins: {
@@ -88,6 +121,45 @@ export const SubjectResultPage = () => {
                   title: {
                     display: true,
                     text: "Total correct & incorrect",
+                  },
+                },
+              }}
+            />
+            <VerticalBarGraph
+              data={{
+                labels: graphData2.map(
+                  (_, index) => `${index * binSize}-${(index + 1) * binSize}`
+                ),
+                datasets: [
+                  {
+                    data: graphData2,
+                    backgroundColor: ["rgba(31,41,55, 1)"],
+                    borderColor: ["rgba(31,41,55, 1)"],
+                  },
+                ],
+              }}
+              options={{
+                elements: {
+                  bar: {
+                    borderWidth: 1,
+                  },
+                },
+                scales: {
+                  yAxes: [
+                    {
+                      ticks: {
+                        beginAtZero: true,
+                      },
+                    },
+                  ],
+                },
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  title: {
+                    display: true,
+                    text: "Frequecny Distribution of Directions",
                   },
                 },
               }}
