@@ -3,6 +3,7 @@ import { Loader } from "../components/Loader";
 import { getAllDocs } from "../config/firestore";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
+import { downloadExcel } from "../utils/export";
 export const ResultsPage = () => {
   const [loading, setLoading] = useState(true);
   const [docs, setDocs] = useState([]);
@@ -32,11 +33,12 @@ export const ResultsPage = () => {
         <div className="w-full m-5">
           <span className="text-2xl font-bold">Results</span>
           <div className="overflow-x-auto">
-            <table className="table table-zebra">
+            <table className="table ">
               {/* head */}
               <thead>
                 <tr>
                   <th></th>
+                  <th>Id</th>
                   <th>Name</th>
                   <th>Age</th>
                   <th>Email</th>
@@ -48,6 +50,7 @@ export const ResultsPage = () => {
                 {docs.map((doc, i) => (
                   <tr key={i}>
                     <th>{i + 1}</th>
+                    <td>{doc.data.id}</td>
                     <td>{doc.data.name}</td>
                     <td>{doc.data.age}</td>
                     <td>{doc.data.email}</td>
@@ -60,6 +63,17 @@ export const ResultsPage = () => {
                         }}
                       >
                         View
+                      </button>
+                      <button
+                        className="btn btn-neutral ml-2"
+                        onClick={() => {
+                          downloadExcel(
+                            `${doc.data.id}-${doc.data.name.replace(" ", "_")}`,
+                            doc.data.data
+                          );
+                        }}
+                      >
+                        Download
                       </button>
                     </td>
                   </tr>

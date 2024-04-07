@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { findCorrectIncorrect } from "../utils/calculations";
 
 export const RDK = ({ coherence, trialTime, submitData, change }) => {
   const [initialDirection, setInitialAngle] = useState();
@@ -177,13 +178,15 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
           resContext.closePath();
           drawing = false;
           setReportedDirection(radianToDegree(angle));
-          submitData({
+          let rawData = {
             coherence,
             initialDirection,
             finalDirection,
             reportedDirection: radianToDegree(angle),
             angleChange,
-          });
+          };
+          let correct = findCorrectIncorrect(rawData);
+          submitData({ ...rawData, correct });
         }
       }
 
@@ -227,13 +230,15 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
           resContext.closePath();
           drawingTouch = false;
           setReportedDirection(angle);
-          submitData({
+          let rawData = {
             coherence,
             initialDirection,
             finalDirection,
             reportedDirection: radianToDegree(angle),
             angleChange,
-          });
+          };
+          let correct = findCorrectIncorrect(rawData);
+          submitData({ ...rawData, correct });
         }
       };
 

@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { Loader } from "../components/Loader";
 import { getRealTimeData } from "../config/firestore";
 import { VerticalBarGraph } from "../components/Charts";
+import { findCorrectIncorrect } from "../utils/calculations";
 export const SubjectResultPage = () => {
   const location = useLocation();
   const { doc } = location.state;
@@ -17,22 +18,6 @@ export const SubjectResultPage = () => {
   useEffect(() => {
     getRealTimeData("experiments", doc.uid, setData, setLoading);
   }, []);
-
-  const findCorrectIncorrect = (data) => {
-    let finalAngle = data.finalDirection;
-    let reportedAngle = data.reportedDirection;
-    let maxLimit = (finalAngle + 15) % 360;
-    let minLimit = finalAngle - 15;
-    if (minLimit < 0) {
-      minLimit += 360;
-    }
-
-    if (minLimit <= maxLimit) {
-      return reportedAngle >= minLimit && reportedAngle <= maxLimit;
-    } else {
-      return reportedAngle >= minLimit || reportedAngle <= maxLimit;
-    }
-  };
 
   const countCorrectIncorrect = (data) => {
     let array = data.data;
@@ -120,7 +105,7 @@ export const SubjectResultPage = () => {
                     <td>{dataPoint.finalDirection}</td>
                     <td>{dataPoint.reportedDirection}</td>
                     <td>{dataPoint.angleChange}</td>
-                    <th>{findCorrectIncorrect(dataPoint) ? "Yes" : "No"}</th>
+                    <th>{dataPoint.correct ? "Yes" : "No"}</th>
                   </tr>
                 ))}
               </tbody>
