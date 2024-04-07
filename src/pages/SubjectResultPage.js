@@ -50,6 +50,17 @@ export const SubjectResultPage = () => {
           <br />
           <span className="text-xl font-semibold mt-5">Graphs</span>
           <div className="mt-2 w-1/2 h-1/2">
+            <span className="text-m font-semibold mt-5">
+              Trial: {data.data.length}/60
+            </span>
+
+            <span className="text-m font-semibold mt-5 ml-5">
+              Correct: {graphData1[0]}/60
+            </span>
+
+            <span className="text-m font-semibold mt-5 ml-5">
+              Incorrect: {graphData1[1]}/60
+            </span>
             <VerticalBarGraph
               data={{
                 labels: ["Correct", "Incorrect"],
