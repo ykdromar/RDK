@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { setData } from "../config/firestore";
 import { uid } from "uid";
@@ -15,7 +15,21 @@ export const HomePage = () => {
 
   const consent = watch("consent");
 
-  return (
+  const [showIntro, setShowIntro] = useState(true);
+
+  return showIntro ? (
+    <div className="text-4xl font-bold w-screen h-screen flex flex-col items-center justify-center">
+      Welcome to the RDK Experiment
+      <button
+        className="btn btn-outline mt-5"
+        onClick={() => {
+          setShowIntro(false);
+        }}
+      >
+        Start
+      </button>
+    </div>
+  ) : (
     <div className="mt-5 flex flex-col items-center justify-center">
       <h2 className="text-xl font-bold">Please Fill up your details</h2>
       <form

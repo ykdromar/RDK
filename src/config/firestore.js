@@ -11,6 +11,7 @@ import {
   getCountFromServer,
   query,
   where,
+  onSnapshot,
 } from "firebase/firestore";
 import firebaseApp from "./firebaseConfig";
 
@@ -65,6 +66,18 @@ const getSingleDoc = async (collectionName, docId) => {
   }
 };
 
+const getRealTimeData = (collectionName, docId, setData, setLoading) => {
+  try {
+    const docRef = doc(db, collectionName, docId);
+    onSnapshot(docRef, (doc) => {
+      setData(doc.data());
+      setLoading(false);
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const updateData = async (collectionName, docId, data) => {
   try {
     await updateDoc(doc(db, collectionName, docId), data);
@@ -116,6 +129,7 @@ export {
   getAllDocs,
   updateData,
   getSingleDoc,
+  getRealTimeData,
   deleteData,
   getDocumentsCount,
   queryData,
