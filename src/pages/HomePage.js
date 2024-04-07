@@ -35,7 +35,8 @@ export const HomePage = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           let id = uid(11);
-          setData("experiments", id, { id, ...data, data: [] });
+          let rawData = { id, ...data, data: [] };
+          setData("experiments", id, rawData);
           reset();
           navigate("/experiment", { state: { id, ...data } });
         })}

@@ -10,7 +10,7 @@ export const SubjectResultPage = () => {
   const { doc } = location.state;
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [graphData1, setGraphData1] = useState([]);
+  const [graphData1, setGraphData1] = useState([0, 0]);
 
   const screenClassnames = classNames("h-screen", "flex", "justify-center", {
     "items-center": loading,
