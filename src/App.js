@@ -1,17 +1,38 @@
 import styles from "./app.module.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   HomePage,
   ExperimentPage,
   ResultsPage,
   SubjectResultPage,
+  LoginPage,
 } from "./pages";
+import { Navbar } from "./components/Navbar";
+import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { firebaseGetUser } from "./config/firebaseAuth";
+import { Loader } from "./components/Loader";
 function App() {
-  return (
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    firebaseGetUser(setUser, setLoading);
+  }, []);
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div className="">
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route exact path="/" element={<HomePage />}></Route>
+          <Route
+            exact
+            path="/login"
+            element={user ? <Navigate replace to="/" /> : <LoginPage />}
+          ></Route>
           <Route exact path="/experiment" element={<ExperimentPage />}></Route>
           <Route exact path="/results" element={<ResultsPage />}></Route>
           <Route
