@@ -13,9 +13,6 @@ export const SubjectResultPage = () => {
   const [graphData1, setGraphData1] = useState([0, 0]);
   const [graphData2, setGraphData2] = useState([]);
 
-  const screenClassnames = classNames("h-screen", "flex", "justify-center", {
-    "items-center": loading,
-  });
   useEffect(() => {
     getRealTimeData("experiments", doc.uid, setData, setLoading);
   }, []);
@@ -54,148 +51,145 @@ export const SubjectResultPage = () => {
     }
   }, [data]);
 
-  return (
-    <div className={screenClassnames}>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="w-full m-5">
-          <span className="text-2xl font-bold">Results: {doc.data.name}</span>
-          <br />
-          <span className="text-xl font-semibold mt-5">Graphs</span>
-          <div className="mt-2 w-1/2 h-1/2 flex">
-            <div className="mt-5 border-r-2 p-1 mr-1">
-              <table className="table">
-                {/* head */}
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Count</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="hover">
-                    <th>Trial</th>
-                    <td>{data.data.length}</td>
-                    <td>60</td>
-                  </tr>
-                  <tr className="hover">
-                    <th>Correct</th>
-                    <td>{graphData1[0]}</td>
-                    <td>60</td>
-                  </tr>
-                  <tr className="hover">
-                    <th>Incorrect</th>
-                    <td>{graphData1[1]}</td>
-                    <td>60</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <VerticalBarGraph
-              className=" p-1 mr-1"
-              data={{
-                labels: ["Correct", "Incorrect"],
-                datasets: [
-                  {
-                    data: graphData1,
-                    backgroundColor: [
-                      "rgba(31,41,55, 1)",
-                      "rgba(205,208,211,1)",
-                    ],
-                    borderColor: ["rgba(31,41,55, 1)", "rgba(205,208,211,1)"],
-                  },
-                ],
-              }}
-              options={{
-                elements: {
-                  bar: {
-                    borderWidth: 0,
-                  },
-                },
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                  title: {
-                    display: true,
-                    text: "Total correct & incorrect",
-                  },
-                },
-              }}
-            />
-            <VerticalBarGraph
-              data={{
-                labels: graphData2.map(
-                  (_, index) => `${index * binSize}-${(index + 1) * binSize}`
-                ),
-                datasets: [
-                  {
-                    data: graphData2,
-                    backgroundColor: ["rgba(31,41,55, 1)"],
-                    borderColor: ["rgba(31,41,55, 1)"],
-                  },
-                ],
-              }}
-              options={{
-                elements: {
-                  bar: {
-                    borderWidth: 1,
-                  },
-                },
-                scales: {
-                  yAxes: [
-                    {
-                      ticks: {
-                        beginAtZero: true,
-                      },
-                    },
-                  ],
-                },
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                  title: {
-                    display: true,
-                    text: "Frequecny Distribution of Directions",
-                  },
-                },
-              }}
-            />
-          </div>
-          <div className="overflow-x-auto mt-5">
-            <table className="table">
-              {/* head */}
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Coherence</th>
-                  <th>Initial Direction</th>
-                  <th>Final Direction</th>
-                  <th>Reported Direction</th>
-                  <th>Angle Change</th>
-                  <th>Correct</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.data.map((dataPoint, i) => (
-                  <tr className="hover" key={i}>
-                    <th>{i + 1}</th>
-                    <td>{dataPoint.coherence}</td>
-                    <td>{dataPoint.initialDirection}</td>
-                    <td>{dataPoint.finalDirection}</td>
-                    <td>{dataPoint.reportedDirection}</td>
-                    <td>{dataPoint.angleChange}</td>
-                    <th>{dataPoint.correct ? "Yes" : "No"}</th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+  return loading ? (
+    <Loader />
+  ) : (
+    <div className="w-full p-6 pt-16">
+      <span className="text-2xl font-bold">Results: {doc.data.name}</span>
+      <br />
+      <span className="text-xl font-semibold mt-5">Graphs</span>
+      <div className="mt-2 w-full h-1/2 flex">
+        <div className="w-1/3 mt-5 border-r-2 p-1 mr-1">
+          <table className="table">
+            {/* head */}
+            <thead>
+              <tr>
+                <th></th>
+                <th>Count</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="hover">
+                <th>Trial</th>
+                <td>{data.data.length}</td>
+                <td>60</td>
+              </tr>
+              <tr className="hover">
+                <th>Correct</th>
+                <td>{graphData1[0]}</td>
+                <td>60</td>
+              </tr>
+              <tr className="hover">
+                <th>Incorrect</th>
+                <td>{graphData1[1]}</td>
+                <td>60</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      )}
+        <div className="w-1/3">
+          <VerticalBarGraph
+            className=" p-1 mr-1"
+            data={{
+              labels: ["Correct", "Incorrect"],
+              datasets: [
+                {
+                  data: graphData1,
+                  backgroundColor: ["rgba(31,41,55, 1)", "rgba(205,208,211,1)"],
+                  borderColor: ["rgba(31,41,55, 1)", "rgba(205,208,211,1)"],
+                },
+              ],
+            }}
+            options={{
+              elements: {
+                bar: {
+                  borderWidth: 0,
+                },
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                title: {
+                  display: true,
+                  text: "Total correct & incorrect",
+                },
+              },
+            }}
+          />
+        </div>
+        <div className="w-1/3">
+          <VerticalBarGraph
+            data={{
+              labels: graphData2.map(
+                (_, index) => `${index * binSize}-${(index + 1) * binSize}`
+              ),
+              datasets: [
+                {
+                  data: graphData2,
+                  backgroundColor: ["rgba(31,41,55, 1)"],
+                  borderColor: ["rgba(31,41,55, 1)"],
+                },
+              ],
+            }}
+            options={{
+              elements: {
+                bar: {
+                  borderWidth: 1,
+                },
+              },
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+              },
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                title: {
+                  display: true,
+                  text: "Frequecny Distribution of Directions",
+                },
+              },
+            }}
+          />
+        </div>
+      </div>
+      <div className="overflow-x-auto mt-5">
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Coherence</th>
+              <th>Initial Direction</th>
+              <th>Final Direction</th>
+              <th>Reported Direction</th>
+              <th>Angle Change</th>
+              <th>Correct</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.data.map((dataPoint, i) => (
+              <tr className="hover" key={i}>
+                <th>{i + 1}</th>
+                <td>{dataPoint.coherence}</td>
+                <td>{dataPoint.initialDirection}</td>
+                <td>{dataPoint.finalDirection}</td>
+                <td>{dataPoint.reportedDirection}</td>
+                <td>{dataPoint.angleChange}</td>
+                <th>{dataPoint.correct ? "Yes" : "No"}</th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

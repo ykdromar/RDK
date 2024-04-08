@@ -9,9 +9,10 @@ import {
 } from "./pages";
 import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
 import { firebaseGetUser } from "./config/firebaseAuth";
 import { Loader } from "./components/Loader";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -33,12 +34,22 @@ function App() {
             path="/login"
             element={user ? <Navigate replace to="/" /> : <LoginPage />}
           ></Route>
-          <Route exact path="/experiment" element={<ExperimentPage />}></Route>
-          <Route exact path="/results" element={<ResultsPage />}></Route>
+          <Route
+            exact
+            path="/experiment"
+            element={!user ? <Navigate replace to="/" /> : <ExperimentPage />}
+          ></Route>
+          <Route
+            exact
+            path="/results"
+            element={!user ? <Navigate replace to="/" /> : <ResultsPage />}
+          ></Route>
           <Route
             exact
             path="/results/:subjectId"
-            element={<SubjectResultPage />}
+            element={
+              !user ? <Navigate replace to="/" /> : <SubjectResultPage />
+            }
           ></Route>
           <Route
             exact
@@ -47,6 +58,17 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

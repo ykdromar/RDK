@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { firebaseGetUser } from "../config/firebaseAuth";
+import { Link } from "react-router-dom";
 export const HomePage = () => {
   const [user, setUser] = useState();
   useEffect(() => {
@@ -17,9 +18,13 @@ export const HomePage = () => {
           <button className="btn mt-5 mx-2" onClick={() => {}}>
             New Experiment
           </button>
-          <button className="btn btn-neutral mt-5 mx-2" onClick={() => {}}>
+          <Link
+            to="/results"
+            className="btn btn-neutral mt-5 mx-2"
+            onClick={() => {}}
+          >
             View Results
-          </button>
+          </Link>
         </div>
       ) : (
         <span className="text-lg mt-4">

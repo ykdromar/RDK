@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import firebaseApp from "./firebaseConfig";
 import {
   getAuth,
@@ -16,8 +17,12 @@ const firebaseLogin = async ({ email, password }) => {
       password
     );
     let user = userCredentials.user;
+    if (user) {
+      toast.success("Logged in successfully");
+    }
     return user;
   } catch (error) {
+    toast.error("Invalid email/passoword");
     console.log("ERROR IN LOGIN : " + error);
   }
 };
@@ -25,7 +30,9 @@ const firebaseLogin = async ({ email, password }) => {
 const firebaseLogout = async () => {
   try {
     await signOut(auth);
+    toast.success("Logged out successfully");
   } catch (error) {
+    toast.error("Failed to logout!");
     console.log("Error in logging out ", error);
   }
 };
