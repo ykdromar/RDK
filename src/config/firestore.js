@@ -71,7 +71,9 @@ const getRealTimeData = (collectionName, docId, setData, setLoading) => {
     const docRef = doc(db, collectionName, docId);
     onSnapshot(docRef, (doc) => {
       setData(doc.data());
-      setLoading(false);
+      if (doc.data() != null) {
+        setLoading(false);
+      }
     });
   } catch (e) {
     console.log(e);
