@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
-import { updateData } from "../config/firestore";
+import { setData } from "../config/firestore";
 import { trials } from "../constants/trials";
 export const ExperimentPage = () => {
   const location = useLocation();
@@ -35,14 +35,13 @@ export const ExperimentPage = () => {
 
   const timeline = [...trials];
   const submitData = (data) => {
-    // let newData = [...experimentData, data];
-    // setExperimentData(newData);
+    let newData = [...experimentData, data];
+    setExperimentData(newData);
     setShowNextScreen(true);
     setTimelineIndex(timeLineIndex + 1);
-    // updateData("experiments", subjectInfo.id, {
-    //   ...subjectInfo,
-    //   data: newData,
-    // });
+    setData("newExperiments", subjectInfo.id, {
+      data: newData,
+    });
     console.log(data);
   };
 
