@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { exclusionQuestions } from "../constants/exclusion";
 import { olifeQuestions } from "../constants/olifeQuestions";
 export const SubjectDetailsPage = () => {
   const loaction = useLocation();
   const doc = loaction.state;
+  const [exclusionKeys, setExclusionKeys] = useState([]);
+  const [olifeKeys, setOlifeKeys] = useState([]);
 
-  const exclusionKeys = Object.keys(doc.data.exclusionQuestions);
-  const olifeKeys = Object.keys(doc.data.olifeQuestions);
+  useEffect(() => {
+    if (doc.data.exclusionQuestions) {
+      const rawExclusionKeys = Object.keys(doc.data.exclusionQuestions);
+      setExclusionKeys(rawExclusionKeys);
+    }
+
+    if (doc.data.olifeQuestions) {
+      const rawOlifeKeys = Object.keys(doc.data.olifeQuestions);
+      setOlifeKeys(rawOlifeKeys);
+    }
+  }, []);
 
   return (
     <div className="w-full p-6 pt-16 ">

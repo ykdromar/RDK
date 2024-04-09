@@ -1,3 +1,66 @@
+export const trial_round = [
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: true,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+  {
+    type: "RDK-Trial",
+    coherence: 70,
+    change: false,
+  },
+];
+
 export const pilot_trials = [
   {
     type: "RDK",
