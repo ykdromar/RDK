@@ -6,6 +6,8 @@ import { SubjectResultPage } from "./SubjectResultPage";
 import { LoginPage } from "./LoginPage";
 import { NewExperimentPage } from "./NewExperimentPage";
 import { ExclusionInclusionPage } from "./ExclusionInclusionPage";
+import { OlifePage } from "./OlifePage";
+import { FinishPage } from "./FinishPage";
 export {
   HomePage,
   ExperimentPage,
@@ -15,4 +17,6 @@ export {
   LoginPage,
   NewExperimentPage,
   ExclusionInclusionPage,
+  OlifePage,
+  FinishPage,
 };

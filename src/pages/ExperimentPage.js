@@ -2,7 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
 import { setData } from "../config/firestore";
-import { trials } from "../constants/trials";
+import { pilot_trials } from "../constants/trials";
+import { Link } from "react-router-dom";
 export const ExperimentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +34,19 @@ export const ExperimentPage = () => {
     );
   };
 
-  const timeline = [...trials];
+  const next = () => {
+    setTimelineIndex(timeLineIndex + 1);
+  };
+
+  const timeline = [
+    {
+      type: "finish",
+    },
+    {
+      type: "break",
+    },
+    ...pilot_trials,
+  ];
   const submitData = (data) => {
     if (data != null) {
       let newData = [...experimentData, data];
@@ -47,7 +60,6 @@ export const ExperimentPage = () => {
       setShowNextScreen(true);
       setTimelineIndex(timeLineIndex + 1);
     }
-    console.log(data);
   };
 
   return (
@@ -67,6 +79,50 @@ export const ExperimentPage = () => {
         ) : (
           <NextScreen key={timeLineIndex} />
         ))}
+      {timeline[timeLineIndex].type === "break" && <BreakScreen next={next} />}
+      {timeline[timeLineIndex].type === "finish" && (
+        <FinishScreen
+          next={next}
+          subjectInfo={subjectInfo}
+          navigate={navigate}
+        />
+      )}
+    </div>
+  );
+};
+
+const BreakScreen = ({ next }) => {
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-xl font-bold">Break Time</h2>
+      <h2 className="text-m font-semibold mt-2">
+        Please relex yourself but you should not leave the room and once you are
+        ready press the Resume button below
+      </h2>
+      <button className="btn btn-neutral mt-3" onClick={next}>
+        Resume
+      </button>
+    </div>
+  );
+};
+
+const FinishScreen = ({ next, subjectInfo, navigate }) => {
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-xl font-bold">
+        Thank You for performing the experiment
+      </h2>
+      <h2 className="text-m mt-2">
+        Kindly, please fill a small survey by prssing the button below
+      </h2>
+      <button
+        className="btn btn-neutral mt-3"
+        onClick={() => {
+          navigate("/new-experiment/olife", { state: subjectInfo });
+        }}
+      >
+        Go to survey
+      </button>
     </div>
   );
 };

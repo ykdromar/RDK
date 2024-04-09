@@ -1,4 +1,4 @@
-export const trials = [
+export const pilot_trials = [
   {
     type: "RDK",
     coherence: 30,

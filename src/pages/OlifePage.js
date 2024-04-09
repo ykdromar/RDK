@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { setData, updateData } from "../config/firestore";
 import { useLocation, useNavigate } from "react-router-dom";
-import { exclusionQuestions } from "../constants/exclusion";
-export const ExclusionInclusionPage = () => {
+import { olifeQuestions } from "../constants/olifeQuestions";
+export const OlifePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const subjectInfo = location.state;
@@ -16,28 +16,26 @@ export const ExclusionInclusionPage = () => {
 
   return (
     <div className="w-full p-6 pt-16 flex flex-col items-center justify-center ">
-      <h2 className="text-2xl font-bold">New Experiment</h2>
-      <p className="w-2/3 text-center my-3">
-        We have an exclusion criteria for this study. We are looking for healthy
-        participants without any history of the following conditions.
-      </p>
+      <span className="text-m font-medium fixed right-6 top-16 ">
+        {subjectInfo.id}
+      </span>
+      <h2 className="text-2xl font-bold">O-Life Survey</h2>
       <h2 className="text-xl font-semibold mt-3 m-3">
-        Please fill up the following form
+        Please fill up the following survey
       </h2>
 
       <form
         onSubmit={handleSubmit(async (data) => {
           let id = subjectInfo.id;
-          updateData("subjects", id, { exclusionQuestions: data });
+          updateData("subjects", id, { olifeQuestions: data });
           reset();
-          let rawData = { ...subjectInfo, ...data };
-          navigate("/new-experiment/instructions", { state: rawData });
+          navigate("/new-experiment/finish");
         })}
-        className="w-6/12 min-w-56 mt-1 "
+        className="w-10/12 min-w-56 mt-1 "
       >
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto max-h-64">
           <table className="table">
-            <thead>
+            <thead className="sticky top-0 bg-white">
               <tr>
                 <th></th>
                 <th>Question</th>
@@ -46,14 +44,14 @@ export const ExclusionInclusionPage = () => {
               </tr>
             </thead>
             <tbody>
-              {exclusionQuestions.map((q, i) => (
+              {olifeQuestions.map((q, i) => (
                 <tr key={i}>
                   <th>{i + 1}</th>
                   <td>{q}</td>
                   <td>
                     <input
                       type="radio"
-                      {...register(`ix-${i + 1}`)}
+                      {...register(`olife-${i + 1}`)}
                       value="Yes"
                       className="radio"
                     />
@@ -61,7 +59,7 @@ export const ExclusionInclusionPage = () => {
                   <td>
                     <input
                       type="radio"
-                      {...register(`ix-${i + 1}`)}
+                      {...register(`olife-${i + 1}`)}
                       value="No"
                       className="radio"
                     />
@@ -71,7 +69,6 @@ export const ExclusionInclusionPage = () => {
             </tbody>
           </table>
         </div>
-
         <div className="w-full flex justify-center mt-3 px-auto">
           <button
             type="reset"
@@ -83,7 +80,7 @@ export const ExclusionInclusionPage = () => {
             Clear
           </button>
           <button type="submit" className="btn btn-neutral mx-2">
-            Continue
+            Submit
           </button>
         </div>
       </form>

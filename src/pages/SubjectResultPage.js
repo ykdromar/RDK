@@ -16,10 +16,6 @@ export const SubjectResultPage = () => {
     getRealTimeData("newExperiments", subjectId, setData, setLoading);
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const binSize = 45; // Adjust the bin size as needed
   const generateFrequencyData = (rawData) => {
     let data = rawData.data;
