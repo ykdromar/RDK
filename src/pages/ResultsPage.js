@@ -10,7 +10,7 @@ export const ResultsPage = () => {
   const navigate = useNavigate();
   const fetchDocs = async () => {
     setLoading(true);
-    let docs = await getAllDocs("experiments");
+    let docs = await getAllDocs("subjects");
     if (docs) {
       setDocs(docs);
       setLoading(false);
@@ -26,17 +26,15 @@ export const ResultsPage = () => {
   ) : (
     <div className="w-full p-6 pt-16 ">
       <span className="text-2xl font-bold">Results</span>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto flex flex-col items-center justify-center">
         <table className="table ">
           {/* head */}
           <thead>
             <tr>
               <th></th>
               <th>Id</th>
-              <th>Name</th>
               <th>Age</th>
-              <th>Email</th>
-              <th>Mobile Number</th>
+              <th>Gender</th>
               <th></th>
             </tr>
           </thead>
@@ -45,29 +43,16 @@ export const ResultsPage = () => {
               <tr key={i}>
                 <th>{i + 1}</th>
                 <td>{doc.data.id}</td>
-                <td>{doc.data.name}</td>
                 <td>{doc.data.age}</td>
-                <td>{doc.data.email}</td>
-                <td>{doc.data.mobile}</td>
+                <td>{doc.data.gender}</td>
                 <td>
                   <button
                     className="btn"
                     onClick={() => {
-                      navigate(`./${doc.uid}`, { state: { doc } });
+                      navigate(`./${doc.uid}`);
                     }}
                   >
                     View
-                  </button>
-                  <button
-                    className="btn btn-neutral ml-2"
-                    onClick={() => {
-                      downloadExcel(
-                        `${doc.data.id}-${doc.data.name.replace(" ", "_")}`,
-                        doc.data.data
-                      );
-                    }}
-                  >
-                    Download
                   </button>
                 </td>
               </tr>

@@ -16,8 +16,8 @@ export const NewExperimentPage = () => {
 
   return (
     <div className="w-full p-6 pt-16 flex items-center justify-between ">
-      <div className="w-1/2 flex flex-col  justify-center m-3">
-        <h2 className="text-2xl font-bold">New Experiment</h2>
+      <div className="w-1/2  flex flex-col justify-center m-3">
+        <h2 className="text-2xl font-bold mb-1">New Experiment</h2>
         <h2 className="text-xl font-bold">Welcome to the Perception Test</h2>
         <p>
           Welcome to the Random Dot Kinematogram (RDK) Experiment! Your

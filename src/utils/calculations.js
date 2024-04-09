@@ -31,3 +31,21 @@ export const checkDirection = (angle, reportedAngle) => {
 export const radianToDegree = (angleInRadian) => {
   return (angleInRadian * (180 / Math.PI)) % 360;
 };
+
+export const countTrials = (data, setGraphData1) => {
+  let array = data.data;
+  let initial = 0;
+  let final = 0;
+  let random = 0;
+  for (let i = 0; i < array.length; i++) {
+    let dataPoint = array[i];
+    if (dataPoint.directionType === "Initial Direction") {
+      initial++;
+    } else if (dataPoint.directionType === "Final Direction") {
+      final++;
+    } else {
+      random++;
+    }
+  }
+  setGraphData1([final, initial, random]);
+};
