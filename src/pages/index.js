@@ -8,6 +8,7 @@ import { NewExperimentPage } from "./NewExperimentPage";
 import { ExclusionInclusionPage } from "./ExclusionInclusionPage";
 import { OlifePage } from "./OlifePage";
 import { FinishPage } from "./FinishPage";
+import { SubjectDetailsPage } from "./SubjectDetailsPage";
 export {
   HomePage,
   ExperimentPage,
@@ -19,4 +20,5 @@ export {
   ExclusionInclusionPage,
   OlifePage,
   FinishPage,
+  SubjectDetailsPage,
 };

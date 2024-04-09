@@ -51,7 +51,7 @@ export const OlifePage = () => {
                   <td>
                     <input
                       type="radio"
-                      {...register(`olife-${i + 1}`)}
+                      {...register(`${i}`, { required: true })}
                       value="Yes"
                       className="radio"
                     />
@@ -59,7 +59,7 @@ export const OlifePage = () => {
                   <td>
                     <input
                       type="radio"
-                      {...register(`olife-${i + 1}`)}
+                      {...register(`${i}`, { required: true })}
                       value="No"
                       className="radio"
                     />

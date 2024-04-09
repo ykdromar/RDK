@@ -11,6 +11,7 @@ import {
   InstructionsPage,
   OlifePage,
   FinishPage,
+  SubjectDetailsPage,
 } from "./pages";
 import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
@@ -83,6 +84,13 @@ function App() {
             path="/results/:subjectId"
             element={
               !user ? <Navigate replace to="/" /> : <SubjectResultPage />
+            }
+          ></Route>
+          <Route
+            exact
+            path="/results/:subjectId/details"
+            element={
+              !user ? <Navigate replace to="/" /> : <SubjectDetailsPage />
             }
           ></Route>
           <Route

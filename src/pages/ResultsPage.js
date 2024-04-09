@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Loader } from "../components/Loader";
 import { getAllDocs } from "../config/firestore";
-import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
-import { downloadExcel } from "../utils/export";
 export const ResultsPage = () => {
   const [loading, setLoading] = useState(true);
   const [docs, setDocs] = useState([]);
@@ -26,7 +24,7 @@ export const ResultsPage = () => {
   ) : (
     <div className="w-full p-6 pt-16 ">
       <span className="text-2xl font-bold">Results</span>
-      <div className="overflow-x-auto flex flex-col items-center justify-center">
+      <div className="overflow-x-auto ">
         <table className="table ">
           {/* head */}
           <thead>
@@ -45,14 +43,22 @@ export const ResultsPage = () => {
                 <td>{doc.data.id}</td>
                 <td>{doc.data.age}</td>
                 <td>{doc.data.gender}</td>
-                <td>
+                <td className="flex justify-evenly">
+                  <button
+                    className="btn btn-neutral "
+                    onClick={() => {
+                      navigate(`./${doc.uid}/details`, { state: doc });
+                    }}
+                  >
+                    View Details
+                  </button>
                   <button
                     className="btn"
                     onClick={() => {
                       navigate(`./${doc.uid}`);
                     }}
                   >
-                    View
+                    View Data
                   </button>
                 </td>
               </tr>

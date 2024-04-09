@@ -53,7 +53,7 @@ export const ExclusionInclusionPage = () => {
                   <td>
                     <input
                       type="radio"
-                      {...register(`ix-${i + 1}`)}
+                      {...register(`${i}`, { required: true })}
                       value="Yes"
                       className="radio"
                     />
@@ -61,7 +61,7 @@ export const ExclusionInclusionPage = () => {
                   <td>
                     <input
                       type="radio"
-                      {...register(`ix-${i + 1}`)}
+                      {...register(`${i}`, { required: true })}
                       value="No"
                       className="radio"
                     />
