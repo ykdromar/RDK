@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { findCorrectIncorrect } from "../utils/calculations";
+import { findCorrectIncorrect, radianToDegree } from "../utils/calculations";
 
 export const RDK = ({ coherence, trialTime, submitData, change }) => {
   const [initialDirection, setInitialAngle] = useState();
@@ -16,13 +16,28 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
   const rdkCanvasRef = useRef();
   const responseCanvasRef = useRef();
 
-  const radianToDegree = (angleInRadian) => {
-    return (angleInRadian * (180 / Math.PI)) % 360;
-  };
+  // function to give delay
+  function delay(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
 
   const startRDK = () => {
     const canvas = rdkCanvasRef.current;
     const context = canvas.getContext("2d");
+
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Draw a plus sign at the center
+    const size = 20; // Size of the plus sign
+    context.beginPath();
+    context.moveTo(centerX - size / 2, centerY);
+    context.lineTo(centerX + size / 2, centerY);
+    context.moveTo(centerX, centerY - size / 2);
+    context.lineTo(centerX, centerY + size / 2);
+    context.strokeStyle = "black"; // Change color if needed
+    context.stroke();
+
     var numDots = 800;
     var dotSize = 2;
     var dotSpeed = 1.2;
@@ -104,22 +119,23 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       setAngleChange(radianToDegree(changeInAngle));
       setFinalDirection(radianToDegree(newDirection));
     };
-    update();
+    let timeout3 = setTimeout(update, 500);
 
     if (change) {
-      var timeout1 = setTimeout(changeDirection, trialTime / 2);
+      var timeout1 = setTimeout(changeDirection, 500 + trialTime / 2);
     } else {
       setAngleChange(radianToDegree(0));
       setFinalDirection(radianToDegree(sameDirectionAngle));
     }
     let timeout2 = setTimeout(() => {
       setShowRDK(false);
-    }, trialTime);
+    }, 500 + trialTime);
 
     return () => {
       cancelAnimationFrame(frameId);
       clearTimeout(timeout1);
       clearTimeout(timeout2);
+      clearTimeout(timeout3);
     };
   };
 

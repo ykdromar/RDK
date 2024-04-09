@@ -37,8 +37,8 @@ export const ExperimentPage = () => {
   const submitData = (data) => {
     // let newData = [...experimentData, data];
     // setExperimentData(newData);
-    // setShowNextScreen(true);
-    // setTimelineIndex(timeLineIndex + 1);
+    setShowNextScreen(true);
+    setTimelineIndex(timeLineIndex + 1);
     // updateData("experiments", subjectInfo.id, {
     //   ...subjectInfo,
     //   data: newData,

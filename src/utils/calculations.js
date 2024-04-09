@@ -13,3 +13,7 @@ export const findCorrectIncorrect = (data) => {
     return reportedAngle >= minLimit || reportedAngle <= maxLimit;
   }
 };
+
+export const radianToDegree = (angleInRadian) => {
+  return (angleInRadian * (180 / Math.PI)) % 360;
+};
