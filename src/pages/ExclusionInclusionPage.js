@@ -30,7 +30,6 @@ export const ExclusionInclusionPage = () => {
           updateData("subjects", id, data);
           reset();
           let rawData = { ...subjectInfo, ...data };
-          console.log(rawData);
           navigate("/new-experiment/experiment", { state: rawData });
         })}
         className="w-6/12 min-w-56 mt-1 "
@@ -106,22 +105,22 @@ export const ExclusionInclusionPage = () => {
         </div>
         <div className="form-control">
           <label className="label cursor-pointer">
-            <span className="label-text">Caffeine in last 24 hours</span>
+            <span className="label-text">Intook caffeine in last 24 hours</span>
             <input
               type="checkbox"
               className="checkbox"
-              value="History of head injury"
+              value="Intook caffeine in last 24 hours"
               {...register("ix-7")}
             />
           </label>
         </div>
         <div className="form-control">
           <label className="label cursor-pointer">
-            <span className="label-text">History of head injury</span>
+            <span className="label-text">Didn't slept in last 2 days</span>
             <input
               type="checkbox"
               className="checkbox"
-              value="History of head injury"
+              value="Didn't slept in last 2 days"
               {...register("ix-8")}
             />
           </label>
