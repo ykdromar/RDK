@@ -1,9 +1,15 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 export const InstructionsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const subjectInfo = location.state;
+  useEffect(() => {
+    if (subjectInfo == null) {
+      navigate("/");
+    }
+  });
   return (
     <main className="w-full p-6 pt-16  flex flex-col items-start">
       <span className="text-m font-medium fixed right-6 top-16 ">
