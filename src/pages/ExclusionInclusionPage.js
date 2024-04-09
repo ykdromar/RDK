@@ -30,7 +30,7 @@ export const ExclusionInclusionPage = () => {
           updateData("subjects", id, data);
           reset();
           let rawData = { ...subjectInfo, ...data };
-          navigate("/new-experiment/experiment", { state: rawData });
+          navigate("/new-experiment/instructions", { state: rawData });
         })}
         className="w-6/12 min-w-56 mt-1 "
       >

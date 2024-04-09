@@ -8,6 +8,7 @@ import {
   LoginPage,
   NewExperimentPage,
   ExclusionInclusionPage,
+  InstructionsPage,
 } from "./pages";
 import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
@@ -52,6 +53,11 @@ function App() {
           ></Route>
           <Route
             exact
+            path="/new-experiment/instructions"
+            element={!user ? <Navigate replace to="/" /> : <InstructionsPage />}
+          ></Route>
+          <Route
+            exact
             path="/new-experiment/experiment"
             element={!user ? <Navigate replace to="/" /> : <ExperimentPage />}
           ></Route>
@@ -70,7 +76,11 @@ function App() {
           <Route
             exact
             path="*"
-            element={<h1 className="text-2xl font-bold">404</h1>}
+            element={
+              <h1 className="text-2xl font-bold pt-16 text-center ">
+                Error: 404 | Page Not Found!
+              </h1>
+            }
           ></Route>
         </Routes>
       </BrowserRouter>

@@ -41,14 +41,14 @@ export const ExperimentPage = () => {
     { type: "finish", message: "Thanks for performing experiment" },
   ];
   const submitData = (data) => {
-    let newData = [...experimentData, data];
-    setExperimentData(newData);
-    setShowNextScreen(true);
-    setTimelineIndex(timeLineIndex + 1);
-    updateData("experiments", subjectInfo.id, {
-      ...subjectInfo,
-      data: newData,
-    });
+    // let newData = [...experimentData, data];
+    // setExperimentData(newData);
+    // setShowNextScreen(true);
+    // setTimelineIndex(timeLineIndex + 1);
+    // updateData("experiments", subjectInfo.id, {
+    //   ...subjectInfo,
+    //   data: newData,
+    // });
   };
 
   const next = () => {
@@ -58,23 +58,7 @@ export const ExperimentPage = () => {
   return (
     <div className="flex flex-col items-center pt-3">
       <h1 className="text-2xl font-bold mb-4">Experiment</h1>
-      <div className="overflow-x-auto fixed right-5 top-3">
-        <table className="table">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{subjectInfo.id}</td>
-              <td>{subjectInfo.name}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <span>{subjectInfo.id}</span>
       {timeline[timeLineIndex].type === "instructions" && (
         <InstructionsPage next={next} />
       )}
