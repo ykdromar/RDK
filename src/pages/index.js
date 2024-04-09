@@ -4,7 +4,8 @@ import { InstructionsPage } from "./InstructionsPage";
 import { ResultsPage } from "./ResultsPage";
 import { SubjectResultPage } from "./SubjectResultPage";
 import { LoginPage } from "./LoginPage";
-import { UserDetailsFormPage } from "./UserDetailsFormPage";
+import { NewExperimentPage } from "./NewExperimentPage";
+import { ExclusionInclusionPage } from "./ExclusionInclusionPage";
 export {
   HomePage,
   ExperimentPage,
@@ -12,5 +13,6 @@ export {
   ResultsPage,
   SubjectResultPage,
   LoginPage,
-  UserDetailsFormPage,
+  NewExperimentPage,
+  ExclusionInclusionPage,
 };

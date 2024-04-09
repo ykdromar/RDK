@@ -6,6 +6,8 @@ import {
   ResultsPage,
   SubjectResultPage,
   LoginPage,
+  NewExperimentPage,
+  ExclusionInclusionPage,
 } from "./pages";
 import { Navbar } from "./components/Navbar";
 import { useEffect, useState } from "react";
@@ -36,7 +38,21 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/experiment"
+            path="/new-experiment"
+            element={
+              !user ? <Navigate replace to="/" /> : <NewExperimentPage />
+            }
+          ></Route>
+          <Route
+            exact
+            path="/new-experiment/exlusion-inclusion"
+            element={
+              !user ? <Navigate replace to="/" /> : <ExclusionInclusionPage />
+            }
+          ></Route>
+          <Route
+            exact
+            path="/new-experiment/experiment"
             element={!user ? <Navigate replace to="/" /> : <ExperimentPage />}
           ></Route>
           <Route

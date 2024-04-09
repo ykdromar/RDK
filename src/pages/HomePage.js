@@ -15,9 +15,13 @@ export const HomePage = () => {
       </span>
       {user ? (
         <div>
-          <button className="btn mt-5 mx-2" onClick={() => {}}>
+          <Link
+            to="/new-experiment"
+            className="btn mt-5 mx-2"
+            onClick={() => {}}
+          >
             New Experiment
-          </button>
+          </Link>
           <Link
             to="/results"
             className="btn btn-neutral mt-5 mx-2"
