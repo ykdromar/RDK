@@ -10,6 +10,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
   const [finalDirection, setFinalDirection] = useState();
   const [angleChange, setAngleChange] = useState();
   const [showRDK, setShowRDK] = useState(true);
+
   const canvasStyle = {
     borderRadius: "50%",
     border: "2px solid rgba(31,41,55, 1)",
@@ -168,6 +169,10 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       };
       drawCross();
 
+      let startTime = Date.now();
+      let timeout4 = setTimeout(() => {
+        submitData(null);
+      }, 3000);
       // Arrow properties
       const arrow = {
         startX: resCanvas.width / 2,
@@ -273,6 +278,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
           2 * Math.PI +
             Math.atan2(arrow.endY - arrow.startY, arrow.endX - arrow.startX)
         );
+        let endTime = Date.now();
         submitData({
           coherence: coherence,
           initialDirection,
@@ -284,6 +290,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
             : checkDirection(initialDirection, reportedDirection)
             ? "Initial Direction"
             : "Random Direction",
+          responseTime: endTime - startTime,
         });
       }
 
@@ -293,6 +300,10 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
 
       // Initial drawing of the arrow
       drawArrow();
+
+      return () => {
+        clearTimeout(timeout4);
+      };
     }
   }, [showRDK]);
 

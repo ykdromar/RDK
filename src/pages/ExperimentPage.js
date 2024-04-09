@@ -35,13 +35,18 @@ export const ExperimentPage = () => {
 
   const timeline = [...trials];
   const submitData = (data) => {
-    let newData = [...experimentData, data];
-    setExperimentData(newData);
-    setShowNextScreen(true);
-    setTimelineIndex(timeLineIndex + 1);
-    setData("newExperiments", subjectInfo.id, {
-      data: newData,
-    });
+    if (data != null) {
+      let newData = [...experimentData, data];
+      setExperimentData(newData);
+      setShowNextScreen(true);
+      setTimelineIndex(timeLineIndex + 1);
+      setData("newExperiments", subjectInfo.id, {
+        data: newData,
+      });
+    } else {
+      setShowNextScreen(true);
+      setTimelineIndex(timeLineIndex + 1);
+    }
     console.log(data);
   };
 
