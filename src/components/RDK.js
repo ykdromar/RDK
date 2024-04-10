@@ -173,135 +173,268 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
       let timeout4 = setTimeout(() => {
         submitData(null);
       }, 3000);
-      // Arrow properties
-      const arrow = {
-        startX: resCanvas.width / 2,
-        startY: resCanvas.height / 2,
-        endX: resCanvas.width / 2 + 50,
-        endY: resCanvas.height / 2,
-        color: "rgba(31,41,55, 1)",
-        isDragging: false,
-        isElongating: false,
+
+      // // Arrow properties
+      // const arrow = {
+      //   startX: resCanvas.width / 2,
+      //   startY: resCanvas.height / 2,
+      //   endX: resCanvas.width / 2 + 50,
+      //   endY: resCanvas.height / 2,
+      //   color: "rgba(31,41,55, 1)",
+      //   isDragging: false,
+      //   isElongating: false,
+      // };
+
+      // // Function to draw the arrow
+      // function drawArrow() {
+      //   resContext.clearRect(0, 0, resCanvas.width, resCanvas.height);
+      //   resContext.strokeStyle = arrow.color;
+      //   resContext.lineWidth = 3;
+      //   resContext.lineCap = "round";
+      //   resContext.beginPath();
+      //   resContext.moveTo(arrow.startX, arrow.startY);
+      //   resContext.lineTo(arrow.endX, arrow.endY);
+      //   resContext.stroke();
+      //   const angle = Math.atan2(
+      //     arrow.endY - arrow.startY,
+      //     arrow.endX - arrow.startX
+      //   );
+      //   resContext.save();
+      //   resContext.translate(arrow.endX, arrow.endY);
+      //   resContext.rotate(angle);
+      //   resContext.beginPath();
+      //   resContext.moveTo(0, 0);
+      //   resContext.lineTo(-10, -5);
+      //   resContext.lineTo(-10, 5);
+      //   resContext.closePath();
+      //   resContext.fillStyle = arrow.color;
+      //   resContext.fill();
+      //   resContext.restore();
+      // }
+
+      // // Function to handle mouse/touch down event
+      // function handleDown(event) {
+      //   event.preventDefault();
+      //   const touch = event.type === "mousedown" ? event : event.touches[0];
+      //   const mouseX = touch.clientX - resCanvas.getBoundingClientRect().left;
+      //   const mouseY = touch.clientY - resCanvas.getBoundingClientRect().top;
+      //   const distance = Math.sqrt(
+      //     Math.pow(mouseX - arrow.endX, 2) + Math.pow(mouseY - arrow.endY, 2)
+      //   );
+      //   if (distance <= 10) {
+      //     arrow.isDragging = true;
+      //     resCanvas.addEventListener("mousemove", handleMove);
+      //     resCanvas.addEventListener("touchmove", handleMove);
+      //     resCanvas.addEventListener("mouseup", handleUp);
+      //     resCanvas.addEventListener("touchend", handleUp);
+      //     resCanvas.addEventListener("mouseout", handleUp);
+      //     resCanvas.addEventListener("touchcancel", handleUp);
+      //   } else if (
+      //     distance >= arrow.endX - arrow.startX - 10 &&
+      //     distance <= arrow.endX - arrow.startX + 10
+      //   ) {
+      //     arrow.isElongating = true;
+      //     resCanvas.addEventListener("mousemove", handleMove);
+      //     resCanvas.addEventListener("touchmove", handleMove);
+      //     resCanvas.addEventListener("mouseup", handleUp);
+      //     resCanvas.addEventListener("touchend", handleUp);
+      //     resCanvas.addEventListener("mouseout", handleUp);
+      //     resCanvas.addEventListener("touchcancel", handleUp);
+      //   }
+      // }
+
+      // // Function to handle mouse/touch move event
+      // function handleMove(event) {
+      //   event.preventDefault();
+      //   const touch = event.type === "mousemove" ? event : event.touches[0];
+      //   const mouseX = touch.clientX - resCanvas.getBoundingClientRect().left;
+      //   const mouseY = touch.clientY - resCanvas.getBoundingClientRect().top;
+      //   if (arrow.isDragging) {
+      //     arrow.endX = mouseX;
+      //     arrow.endY = mouseY;
+      //   } else if (arrow.isElongating) {
+      //     const angle = Math.atan2(
+      //       arrow.startY - mouseY,
+      //       arrow.startX - mouseX
+      //     );
+      //     arrow.endX = arrow.startX + Math.cos(angle) * arrow.length;
+      //     arrow.endY = arrow.startY + Math.sin(angle) * arrow.length;
+      //   }
+      //   drawArrow();
+      // }
+
+      // // Function to handle mouse/touch up event
+      // function handleUp(event) {
+      //   event.preventDefault();
+      //   arrow.isDragging = false;
+      //   arrow.isElongating = false;
+      //   resCanvas.removeEventListener("mousemove", handleMove);
+      //   resCanvas.removeEventListener("touchmove", handleMove);
+      //   resCanvas.removeEventListener("mouseup", handleUp);
+      //   resCanvas.removeEventListener("touchend", handleUp);
+      //   resCanvas.removeEventListener("mouseout", handleUp);
+      //   resCanvas.removeEventListener("touchcancel", handleUp);
+      //   // Calculate angle
+      //   const reportedDirection = radianToDegree(
+      //     2 * Math.PI +
+      //       Math.atan2(arrow.endY - arrow.startY, arrow.endX - arrow.startX)
+      //   );
+      //   let endTime = Date.now();
+      //   submitData({
+      //     coherence: coherence,
+      //     initialDirection,
+      //     finalDirection,
+      //     reportedDirection,
+      //     angleChange,
+      //     directionType: checkDirection(finalDirection, reportedDirection)
+      //       ? "Final Direction"
+      //       : checkDirection(initialDirection, reportedDirection)
+      //       ? "Initial Direction"
+      //       : "Random Direction",
+      //     responseTime: endTime - startTime,
+      //   });
+      // }
+
+      // // Add event listeners for mouse/touch events
+      // resCanvas.addEventListener("mousedown", handleDown);
+      // resCanvas.addEventListener("touchstart", handleDown);
+
+      // // Initial drawing of the arrow
+      // drawArrow();
+
+      // return () => {
+      //   clearTimeout(timeout4);
+      // };
+
+      var drawing = false;
+      function startDrawing(e) {
+        if (!drawing) {
+          drawing = true;
+          const { offsetX, offsetY } = e;
+          resContext.beginPath();
+          resContext.moveTo(offsetX, offsetY);
+        }
+      }
+
+      function draw(e) {
+        if (drawing) {
+          const { offsetX, offsetY } = e;
+          resContext.lineTo(offsetX, offsetY);
+          resContext.stroke();
+        }
+      }
+
+      function stopDrawing(e) {
+        if (drawing) {
+          const { offsetX, offsetY } = e;
+          const centerX = 200;
+          const centerY = 200;
+          const xRelativeToCenter = offsetX - centerX;
+          const yRelativeToCenter = offsetY - centerY;
+
+          resContext.closePath();
+          drawing = false;
+          const reportedDirection = radianToDegree(
+            2 * Math.PI + Math.atan2(yRelativeToCenter, xRelativeToCenter)
+          );
+          let endTime = Date.now();
+          submitData({
+            coherence: coherence,
+            initialDirection,
+            finalDirection,
+            reportedDirection,
+            angleChange,
+            directionType: checkDirection(finalDirection, reportedDirection)
+              ? "Final Direction"
+              : checkDirection(initialDirection, reportedDirection)
+              ? "Initial Direction"
+              : "Random Direction",
+            responseTime: endTime - startTime,
+          });
+        }
+      }
+
+      // For Mouse
+      resCanvas.addEventListener("mousedown", startDrawing);
+      resCanvas.addEventListener("mousemove", draw);
+      resCanvas.addEventListener("mouseup", stopDrawing);
+      resCanvas.addEventListener("mouseout", stopDrawing);
+
+      let drawingTouch = false;
+      const startDrawingTouch = (e) => {
+        if (!drawingTouch) {
+          drawingTouch = true;
+          const { clientX, clientY } = e.touches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          resContext.beginPath();
+          resContext.moveTo(offsetX, offsetY);
+        }
       };
 
-      // Function to draw the arrow
-      function drawArrow() {
-        resContext.clearRect(0, 0, resCanvas.width, resCanvas.height);
-        resContext.strokeStyle = arrow.color;
-        resContext.lineWidth = 3;
-        resContext.lineCap = "round";
-        resContext.beginPath();
-        resContext.moveTo(arrow.startX, arrow.startY);
-        resContext.lineTo(arrow.endX, arrow.endY);
-        resContext.stroke();
-        const angle = Math.atan2(
-          arrow.endY - arrow.startY,
-          arrow.endX - arrow.startX
-        );
-        resContext.save();
-        resContext.translate(arrow.endX, arrow.endY);
-        resContext.rotate(angle);
-        resContext.beginPath();
-        resContext.moveTo(0, 0);
-        resContext.lineTo(-10, -5);
-        resContext.lineTo(-10, 5);
-        resContext.closePath();
-        resContext.fillStyle = arrow.color;
-        resContext.fill();
-        resContext.restore();
-      }
-
-      // Function to handle mouse/touch down event
-      function handleDown(event) {
-        event.preventDefault();
-        const touch = event.type === "mousedown" ? event : event.touches[0];
-        const mouseX = touch.clientX - resCanvas.getBoundingClientRect().left;
-        const mouseY = touch.clientY - resCanvas.getBoundingClientRect().top;
-        const distance = Math.sqrt(
-          Math.pow(mouseX - arrow.endX, 2) + Math.pow(mouseY - arrow.endY, 2)
-        );
-        if (distance <= 10) {
-          arrow.isDragging = true;
-          resCanvas.addEventListener("mousemove", handleMove);
-          resCanvas.addEventListener("touchmove", handleMove);
-          // resCanvas.addEventListener("mouseup", handleUp);
-          // resCanvas.addEventListener("touchend", handleUp);
-          resCanvas.addEventListener("mouseout", handleUp);
-          resCanvas.addEventListener("touchcancel", handleUp);
-        } else if (
-          distance >= arrow.endX - arrow.startX - 10 &&
-          distance <= arrow.endX - arrow.startX + 10
-        ) {
-          arrow.isElongating = true;
-          resCanvas.addEventListener("mousemove", handleMove);
-          resCanvas.addEventListener("touchmove", handleMove);
-          // resCanvas.addEventListener("mouseup", handleUp);
-          // resCanvas.addEventListener("touchend", handleUp);
-          resCanvas.addEventListener("mouseout", handleUp);
-          resCanvas.addEventListener("touchcancel", handleUp);
+      const drawTouch = (e) => {
+        if (drawingTouch) {
+          e.preventDefault(); // Prevent scrolling on touch devices
+          const { clientX, clientY } = e.touches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          resContext.lineTo(offsetX, offsetY);
+          resContext.stroke();
         }
-      }
+      };
 
-      // Function to handle mouse/touch move event
-      function handleMove(event) {
-        event.preventDefault();
-        const touch = event.type === "mousemove" ? event : event.touches[0];
-        const mouseX = touch.clientX - resCanvas.getBoundingClientRect().left;
-        const mouseY = touch.clientY - resCanvas.getBoundingClientRect().top;
-        if (arrow.isDragging) {
-          arrow.endX = mouseX;
-          arrow.endY = mouseY;
-        } else if (arrow.isElongating) {
-          const angle = Math.atan2(
-            arrow.startY - mouseY,
-            arrow.startX - mouseX
+      const stopDrawingTouch = (e) => {
+        if (drawingTouch) {
+          const { clientX, clientY } = e.changedTouches[0];
+          const { offsetX, offsetY } = getOffset(resCanvas, clientX, clientY);
+          const centerX = 200;
+          const centerY = 200;
+          const xRelativeToCenter = offsetX - centerX;
+          const yRelativeToCenter = offsetY - centerY;
+          resContext.closePath();
+          drawingTouch = false;
+          const reportedDirection = radianToDegree(
+            2 * Math.PI + Math.atan2(yRelativeToCenter, xRelativeToCenter)
           );
-          arrow.endX = arrow.startX + Math.cos(angle) * arrow.length;
-          arrow.endY = arrow.startY + Math.sin(angle) * arrow.length;
+          let endTime = Date.now();
+          submitData({
+            coherence: coherence,
+            initialDirection,
+            finalDirection,
+            reportedDirection,
+            angleChange,
+            directionType: checkDirection(finalDirection, reportedDirection)
+              ? "Final Direction"
+              : checkDirection(initialDirection, reportedDirection)
+              ? "Initial Direction"
+              : "Random Direction",
+            responseTime: endTime - startTime,
+          });
         }
-        drawArrow();
-      }
+      };
 
-      // Function to handle mouse/touch up event
-      function handleUp(event) {
-        event.preventDefault();
-        arrow.isDragging = false;
-        arrow.isElongating = false;
-        resCanvas.removeEventListener("mousemove", handleMove);
-        resCanvas.removeEventListener("touchmove", handleMove);
-        // resCanvas.removeEventListener("mouseup", handleUp);
-        // resCanvas.removeEventListener("touchend", handleUp);
-        resCanvas.removeEventListener("mouseout", handleUp);
-        resCanvas.removeEventListener("touchcancel", handleUp);
-        // Calculate angle
-        const reportedDirection = radianToDegree(
-          2 * Math.PI +
-            Math.atan2(arrow.endY - arrow.startY, arrow.endX - arrow.startX)
-        );
-        let endTime = Date.now();
-        submitData({
-          coherence: coherence,
-          initialDirection,
-          finalDirection,
-          reportedDirection,
-          angleChange,
-          directionType: checkDirection(finalDirection, reportedDirection)
-            ? "Final Direction"
-            : checkDirection(initialDirection, reportedDirection)
-            ? "Initial Direction"
-            : "Random Direction",
-          responseTime: endTime - startTime,
-        });
-      }
+      // Helper function to calculate offset of touch event relative to canvas
+      const getOffset = (canvas, clientX, clientY) => {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          offsetX: clientX - rect.left,
+          offsetY: clientY - rect.top,
+        };
+      };
 
-      // Add event listeners for mouse/touch events
-      resCanvas.addEventListener("mousedown", handleDown);
-      resCanvas.addEventListener("touchstart", handleDown);
-
-      // Initial drawing of the arrow
-      drawArrow();
-
+      // For Touch
+      resCanvas.addEventListener("touchstart", startDrawingTouch);
+      resCanvas.addEventListener("touchmove", drawTouch);
+      resCanvas.addEventListener("touchend", stopDrawingTouch);
+      resCanvas.addEventListener("touchcancel", stopDrawingTouch);
       return () => {
+        resCanvas.removeEventListener("mousedown", startDrawingTouch);
+        resCanvas.removeEventListener("mousemove", drawTouch);
+        resCanvas.removeEventListener("mouseup", stopDrawingTouch);
+        resCanvas.removeEventListener("mouseout", stopDrawingTouch);
+
+        resCanvas.removeEventListener("touchstart", startDrawingTouch);
+        resCanvas.removeEventListener("touchmove", drawTouch);
+        resCanvas.removeEventListener("touchend", stopDrawingTouch);
+        resCanvas.removeEventListener("touchcancel", stopDrawingTouch);
         clearTimeout(timeout4);
       };
     }
