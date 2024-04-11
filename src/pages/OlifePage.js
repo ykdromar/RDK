@@ -33,7 +33,7 @@ export const OlifePage = () => {
         })}
         className="w-10/12 min-w-56 mt-1 "
       >
-        <div className="overflow-x-auto max-h-64">
+        <div className="overflow-x-auto max-h-80">
           <table className="table">
             <thead className="sticky top-0 bg-white">
               <tr>
