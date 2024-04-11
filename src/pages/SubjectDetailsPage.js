@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { downloadExcel } from "../utils/export";
 import { exclusionQuestions } from "../constants/exclusion";
 import { olifeQuestions } from "../constants/olifeQuestions";
 export const SubjectDetailsPage = () => {
@@ -39,7 +40,21 @@ export const SubjectDetailsPage = () => {
           </tbody>
         </table>
       </div>
-      <span className="text-xl font-semibold mt-3">Exclusion Questions</span>
+      <div className="mt-3 flex justify-between items-center ">
+        <span className="text-xl font-semibold">Exclusion Questions</span>
+        <button
+          className="btn ml-2"
+          onClick={() => {
+            downloadData(
+              `${doc.uid}-exclusion`,
+              doc.data.exclusionQuestions,
+              exclusionQuestions
+            );
+          }}
+        >
+          Download
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -60,7 +75,21 @@ export const SubjectDetailsPage = () => {
           </tbody>
         </table>
       </div>
-      <span className="text-xl font-semibold mt-3">O-Life Questions</span>
+      <div className="mt-3 flex justify-between items-center">
+        <span className="text-xl font-semibold">O-Life Questions</span>
+        <button
+          className="btn ml-2"
+          onClick={() => {
+            downloadData(
+              `${doc.uid}-olife`,
+              doc.data.olifeQuestions,
+              olifeQuestions
+            );
+          }}
+        >
+          Download
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="table">
           <thead>
@@ -83,4 +112,15 @@ export const SubjectDetailsPage = () => {
       </div>
     </div>
   );
+};
+
+const downloadData = (fileName, data, questions) => {
+  const keys = Object.keys(data);
+  let array = [];
+  keys.map((key) => {
+    let q = questions[parseInt(key)];
+    let ans = data[key];
+    array.push({ question: q, answer: ans });
+  });
+  downloadExcel(fileName, array);
 };
