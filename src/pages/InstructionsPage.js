@@ -19,8 +19,8 @@ export const InstructionsPage = () => {
       <h2 className="text-m font-semibold my-1">Task overview</h2>
       <ul className="list-disc list-inside my-1">
         <li className="ml-5 ">
-          You will be presented with a cross on the screen to
-          <strong> fixate your gaze</strong>.
+          You will be presented with a circle with cross at the center, you need
+          to look at that cross.
         </li>
         <li className="ml-5 ">
           Then, you’ll see a <strong>Random Dot Kinematogram ( RDK )</strong>.
@@ -29,9 +29,9 @@ export const InstructionsPage = () => {
           interface.
         </li>
         <li className="ml-5 ">
-          Once the task ends, You’ll get a circle with an arrow at the centre.
-          <strong> Drag and drop the arrow at the circumference</strong> in the
-          direction of motion at the end of RDK.
+          Once the task ends, You’ll get a circle with a cross at the centre.
+          Draw a line from center of circle till periphery of the circle in the
+          direction of perceived motion of the dots.
         </li>
       </ul>
       <h2 className="text-m font-semibold my-1">Important Notes</h2>
