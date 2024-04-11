@@ -33,6 +33,11 @@ export const InstructionsPage = () => {
           Draw a line from center of circle till periphery of the circle in the
           direction of perceived motion of the dots.
         </li>
+        <li className="ml-5 ">
+          You just have 3 seconds to report directions after dots motions stops.
+          And incase you are not sure of direction then just wait for 3 seconds
+          and you will move to next trial.
+        </li>
       </ul>
       <h2 className="text-m font-semibold my-1">Important Notes</h2>
       <ul className="list-disc list-inside my-1">

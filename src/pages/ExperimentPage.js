@@ -57,7 +57,7 @@ export const ExperimentPage = () => {
       title: "Main Round",
       message: "This is the main round, press the Start button below to start",
     },
-    ...bin1,
+    ...bin3,
     {
       type: "break",
       title: "Break Time!",
@@ -71,7 +71,7 @@ export const ExperimentPage = () => {
       message:
         "Please relex yourself but you should not leave the room and once you are ready press the Resume button below",
     },
-    ...bin3,
+    ...bin1,
     {
       type: "finish",
     },
