@@ -39,7 +39,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
     context.lineTo(centerX + size / 2, centerY);
     context.moveTo(centerX, centerY - size / 2);
     context.lineTo(centerX, centerY + size / 2);
-    context.strokeStyle = "black"; // Change color if needed
+    context.strokeStyle = "rgba(31,41,55, 1)";
     context.stroke();
 
     var numDots = 800;
@@ -164,7 +164,7 @@ export const RDK = ({ coherence, trialTime, submitData, change }) => {
         resContext.lineTo(centerX + size / 2, centerY);
         resContext.moveTo(centerX, centerY - size / 2);
         resContext.lineTo(centerX, centerY + size / 2);
-        resContext.strokeStyle = "black"; // Change color if needed
+        resContext.strokeStyle = "rgba(31,41,55, 1)";
         resContext.stroke();
       };
       drawCross();

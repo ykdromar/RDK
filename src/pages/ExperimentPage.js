@@ -2,7 +2,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RDK } from "../components/RDK";
 import { setData } from "../config/firestore";
-import { pilot_trials, trial_round } from "../constants/trials";
+import {
+  bin1,
+  bin2,
+  bin3,
+  pilot_trials,
+  trial_round,
+} from "../constants/trials";
 import { Link } from "react-router-dom";
 export const ExperimentPage = () => {
   const location = useLocation();
@@ -51,13 +57,21 @@ export const ExperimentPage = () => {
       title: "Main Round",
       message: "This is the main round, press the Start button below to start",
     },
-    // {
-    //   type: "break",
-    //   title: "Break Time!",
-    //   message:
-    //     "Please relex yourself but you should not leave the room and once you are ready press the Resume button below",
-    // },
-    ...pilot_trials,
+    ...bin1,
+    {
+      type: "break",
+      title: "Break Time!",
+      message:
+        "Please relex yourself but you should not leave the room and once you are ready press the Resume button below",
+    },
+    ...bin2,
+    {
+      type: "break",
+      title: "Break Time!",
+      message:
+        "Please relex yourself but you should not leave the room and once you are ready press the Resume button below",
+    },
+    ...bin3,
     {
       type: "finish",
     },
@@ -147,7 +161,7 @@ const FinishScreen = ({ next, subjectInfo, navigate }) => {
         Thank You for performing the experiment
       </h2>
       <h2 className="text-m mt-2">
-        Kindly, please fill a small survey by prssing the button below
+        Kindly, please fill a small survey by pressing the button below
       </h2>
       <button
         className="btn btn-neutral mt-3"
